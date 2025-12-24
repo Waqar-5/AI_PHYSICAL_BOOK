@@ -8,7 +8,7 @@ description: "Task list template for feature implementation"
 **Input**: Design documents from `/specs/[###-feature-name]/`
 **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
 
-**Tests**: The examples below include test tasks. Tests are OPTIONAL - only include them if explicitly requested in the feature specification.
+**Tests**: Per the constitution's principles of Technical Accuracy and Reproducibility, creating tests is strongly encouraged. Tasks for tests should be created for each user story.
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
@@ -143,6 +143,17 @@ Examples of foundational tasks (adjust based on your project):
 ---
 
 [Add more user story phases as needed, following the same pattern]
+
+---
+
+## Phase N-1: Documentation & Examples
+
+**Purpose**: Ensure the feature aligns with the principles of Clarity and Reproducibility.
+
+- [ ] TXXX [US_ALL] Create/update the book section in `docs/...` explaining the concept.
+- [ ] TXXX [US_ALL] Create a runnable example script in `examples/...`.
+- [ ] TXXX [US_ALL] Add a text-based diagram description to the documentation.
+- [ ] TXXX [US_ALL] Write a corresponding assignment/exercise for the section.
 
 ---
 

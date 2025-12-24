@@ -5,6 +5,16 @@
 **Status**: Draft  
 **Input**: User description: "$ARGUMENTS"
 
+## Constitutional Alignment *(mandatory)*
+
+- **I. Technical Accuracy**: [Explain how this feature will ensure technical accuracy, e.g., "All ROS 2 nodes will be tested on Humble with official Docker images."]
+- **II. Clarity**: [Describe the target audience and how the content will be made clear and accessible, e.g., "This section targets developers familiar with Python but new to ROS 2. Concepts will be introduced with diagrams and simple examples."]
+- **III. Spec-Driven Development**: This document serves as the specification.
+- **IV. Reproducibility**: [Detail the plan for making the feature's code/simulations reproducible, e.g., "A `requirements.txt` and a launch file will be provided to run the simulation."]
+- **Standards & Constraints**: [Confirm that the feature adheres to the project's defined standards (tech stack, SDKs) and constraints (scope, deployment).]
+
+---
+
 ## User Scenarios & Testing *(mandatory)*
 
 <!--

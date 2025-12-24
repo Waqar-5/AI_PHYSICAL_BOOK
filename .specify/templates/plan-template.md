@@ -29,9 +29,14 @@
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+*GATE: Must pass before proceeding. Re-check after any changes to the specification.*
 
-[Gates determined based on constitution file]
+- **[ ] Technical Accuracy**: Does the plan ensure all technical claims and implementations (especially for ROS 2, Gazebo, Isaac Sim) will be validated against official documentation?
+- **[ ] Clarity**: Does the proposed output align with the goal of clear, intermediate-level explanations?
+- **[ ] Spec-Driven**: Is this plan derived from an approved specification document?
+- **[ ] Reproducibility**: Does the plan include tasks for creating runnable examples, complete with setup and dependency documentation?
+- **[ ] Standards Adherence**: Does the plan account for all project standards (SDKs, tech stack, formatting)?
+- **[ ] Constraint Compliance**: Does the plan respect the project's scope, content structure, and deployment constraints?
 
 ## Project Structure
 

@@ -1,55 +1,60 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+---
+Sync Impact Report
+---
+- **Version change**: None → 1.0.0
+- **Reason**: Initial creation of the project constitution.
+- **Added Sections**:
+  - Core Principles
+  - Standards
+  - Constraints
+  - Success Criteria
+- **Templates requiring review**:
+  - `⚠ .specify/templates/plan-template.md`
+  - `⚠ .specify/templates/spec-template.md`
+  - `⚠ .specify/templates/tasks-template.md`
+- **Follow-up TODOs**: None
+-->
+# AI Book + RAG Chatbot on Physical AI & Humanoid Robotics Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Technical Accuracy
+All robotics content, including concepts and code involving ROS 2, Gazebo, Unity, NVIDIA Isaac, and Vision-Language-Action (VLA) models, MUST be verified against official documentation and established best practices to ensure correctness.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Clear, Intermediate-Level Explanations
+Explanations MUST be tailored to an intermediate-level audience, comparable to Panaversity's AI-201/202 courses. Complex topics should be broken down into understandable segments without sacrificing essential technical depth.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Spec-Driven Development
+All development MUST follow the Spec-Kit Plus methodology. Features and modules will be formally specified before implementation begins, using Claude Code as the primary implementation assistant.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Reproducible Code and Simulations
+All code examples, simulations, and chatbot behaviors MUST be reproducible. This includes providing runnable ROS 2 `rclpy` scripts, Gazebo worlds, NVIDIA Isaac Sim scripts, and FastAPI APIs, complete with versioned dependencies and setup instructions.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+## Standards
 
-### [PRINCIPLE_6_NAME]
+- **Verification**: All technical content related to robotics MUST be cross-referenced with official documentation or primary sources.
+- **Examples**: Runnable examples MUST be provided for all key concepts, including ROS 2 nodes, Gazebo worlds, Isaac Sim scripts, and FastAPI endpoints.
+- **SDK Adherence**: The RAG chatbot implementation MUST adhere to the schemas and protocols defined by the OpenAI Agents/ChatKit SDK.
+- **Tech Stack**: The backend MUST use Neon for storage and Qdrant for vector search.
+- **Formatting**: All documentation and book content MUST maintain consistent formatting according to Docusaurus standards.
 
+## Constraints
 
-[PRINCIPLE__DESCRIPTION]
+- **Scope**: The book MUST contain at least 40 sections distributed across 8 to 12 modules.
+- **Content Structure**: Each section MUST include a conceptual summary, a corresponding code example, a text-described diagram, and a concluding assignment.
+- **Chatbot Behavior**: The RAG chatbot MUST only source answers from the book's content or explicitly selected supplementary texts. It MUST be embedded within the Docusaurus-generated site.
+- **Deployment**: The final book/site MUST be deployed on GitHub Pages, with the backend API running on a free-tier hosting provider.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Success Criteria
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
-
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
-
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+- **Book Completion**: The full book is generated, formatted, and successfully deployed.
+- **Chatbot Functionality**: The RAG chatbot is functional, accurate, and adheres to its content sourcing constraints.
+- **Reproducibility**: All provided examples and simulations are runnable by following the documented instructions.
+- **Capstone Project**: A final "Autonomous Humanoid" capstone project is documented end-to-end, integrating the concepts from the book.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution is the definitive guide for the project. All development activities, including documentation, code, and reviews, must align with its principles. Any deviation requires a formal amendment to this document, which must include a justification and be approved by the project lead.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2025-12-10 | **Last Amended**: 2025-12-10
