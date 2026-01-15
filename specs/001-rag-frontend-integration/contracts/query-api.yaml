@@ -1,0 +1,116 @@
+openapi: 3.0.0
+info:
+  title: RAG Query API
+  description: API for querying the RAG agent with document-based retrieval
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000
+    description: Local development server
+
+paths:
+  /query:
+    post:
+      summary: Submit a query to the RAG agent
+      description: Sends a user query to the RAG agent and returns the response with sources
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+      responses:
+        '200':
+          description: Successful response from the RAG agent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '400':
+          description: Bad request - invalid query format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service unavailable - RAG agent not responding
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    QueryRequest:
+      type: object
+      required:
+        - query
+      properties:
+        query:
+          type: string
+          description: The user's question or query text
+          example: "What is artificial intelligence?"
+        metadata:
+          type: object
+          description: Additional context information
+          example:
+            session_id: "abc123"
+            user_id: "user456"
+
+    QueryResponse:
+      type: object
+      required:
+        - response
+        - timestamp
+      properties:
+        response:
+          type: string
+          description: The agent's answer to the query
+          example: "Artificial intelligence is a branch of computer science..."
+        sources:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+              url:
+                type: string
+              content:
+                type: string
+          description: List of source documents used in the response
+        metadata:
+          type: object
+          description: Additional response metadata
+        timestamp:
+          type: string
+          format: date-time
+          description: When the response was generated
+
+    ErrorResponse:
+      type: object
+      required:
+        - error_code
+        - message
+        - timestamp
+      properties:
+        error_code:
+          type: string
+          description: Standardized error code
+          example: "AGENT_UNAVAILABLE"
+        message:
+          type: string
+          description: Human-readable error message
+          example: "The RAG agent is currently unavailable"
+        details:
+          type: object
+          description: Additional error details for debugging
+        timestamp:
+          type: string
+          format: date-time
+          description: When the error occurred

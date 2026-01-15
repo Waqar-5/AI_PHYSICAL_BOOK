@@ -1,0 +1,32 @@
+# Web crawling and scraping
+requests>=2.31.0
+beautifulsoup4>=4.12.2
+lxml>=4.9.3
+selenium>=4.15.0
+playwright>=1.40.0
+
+# Text processing and cleaning
+markdownify>=0.11.6
+lxml>=4.9.3
+html2text>=2020.1.16
+unidecode>=1.3.7
+
+# Embeddings and AI
+cohere>=4.4.3
+numpy>=1.24.3
+scikit-learn>=1.3.0
+
+# Vector database
+qdrant-client>=1.7.0
+
+# AI libraries
+google-generativeai>=0.4.1
+
+# Configuration and utilities
+python-dotenv>=1.0.0
+tqdm>=4.66.1
+PyYAML>=6.0.1
+
+# Async support
+aiohttp>=3.9.0
+asyncio>=3.4.3

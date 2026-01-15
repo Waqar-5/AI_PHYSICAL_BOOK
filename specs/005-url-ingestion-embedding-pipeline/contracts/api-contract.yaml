@@ -1,0 +1,308 @@
+# API Contracts: URL Ingestion & Embedding Pipeline
+
+## REST API Endpoints
+
+### 1. Ingest URL Endpoint
+**POST** `/api/v1/ingest-url`
+
+Initiates the ingestion process for a given URL.
+
+#### Request
+```json
+{
+  "url": "https://example.com/article",
+  "options": {
+    "chunk_size": 1000,
+    "chunk_overlap": 100,
+    "max_content_length": 1000000
+  }
+}
+```
+
+#### Request Parameters
+- `url` (string, required): The URL to ingest and process
+- `options` (object, optional): Processing options
+  - `chunk_size` (integer): Maximum size of text chunks (default: 1000)
+  - `chunk_overlap` (integer): Overlap between chunks (default: 100)
+  - `max_content_length` (integer): Maximum content size to process (default: 1000000)
+
+#### Response - 202 Accepted
+```json
+{
+  "job_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+  "status": "processing",
+  "message": "URL ingestion job created successfully",
+  "created_at": "2025-12-25T10:30:00Z"
+}
+```
+
+#### Response - 400 Bad Request
+```json
+{
+  "error": "Invalid URL format",
+  "details": "URL must be a valid HTTP/HTTPS address"
+}
+```
+
+#### Response - 422 Unprocessable Entity
+```json
+{
+  "error": "URL validation failed",
+  "details": "URL points to a private network address"
+}
+```
+
+### 2. Get Job Status Endpoint
+**GET** `/api/v1/job/{job_id}`
+
+Retrieves the status of a URL ingestion job.
+
+#### Path Parameters
+- `job_id` (string): The unique identifier of the job
+
+#### Response - 200 OK
+```json
+{
+  "job_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+  "url": "https://example.com/article",
+  "status": "completed",
+  "created_at": "2025-12-25T10:30:00Z",
+  "started_at": "2025-12-25T10:30:05Z",
+  "completed_at": "2025-12-25T10:30:15Z",
+  "processed_chunks": 5,
+  "total_chunks": 5,
+  "metadata": {
+    "title": "Example Article Title",
+    "source_domain": "example.com"
+  }
+}
+```
+
+#### Response - 404 Not Found
+```json
+{
+  "error": "Job not found",
+  "details": "No job exists with the provided ID"
+}
+```
+
+### 3. Semantic Search Endpoint
+**POST** `/api/v1/search`
+
+Performs semantic search across all ingested document chunks.
+
+#### Request
+```json
+{
+  "query": "machine learning concepts",
+  "limit": 10,
+  "filters": {
+    "url": "https://example.com/article",
+    "source_domain": "example.com"
+  }
+}
+```
+
+#### Request Parameters
+- `query` (string, required): The search query text
+- `limit` (integer, optional): Maximum number of results to return (default: 10)
+- `filters` (object, optional): Filters to apply to the search
+  - `url` (string): Filter by specific source URL
+  - `source_domain` (string): Filter by source domain
+
+#### Response - 200 OK
+```json
+{
+  "query": "machine learning concepts",
+  "results": [
+    {
+      "id": "chunk-a1b2c3d4-e5f6-7890-1234-567890abcdef",
+      "url": "https://example.com/article",
+      "content": "Machine learning is a subset of artificial intelligence...",
+      "chunk_index": 2,
+      "similarity_score": 0.85,
+      "metadata": {
+        "title": "Introduction to AI",
+        "word_count": 150,
+        "source_domain": "example.com"
+      }
+    }
+  ],
+  "total_results": 1,
+  "search_time_ms": 25
+}
+```
+
+### 4. List Jobs Endpoint
+**GET** `/api/v1/jobs`
+
+Lists recent ingestion jobs with optional filtering.
+
+#### Query Parameters
+- `status` (string, optional): Filter by job status (pending, processing, completed, failed)
+- `url` (string, optional): Filter by source URL
+- `limit` (integer, optional): Maximum number of jobs to return (default: 20)
+- `offset` (integer, optional): Number of jobs to skip (default: 0)
+
+#### Response - 200 OK
+```json
+{
+  "jobs": [
+    {
+      "job_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+      "url": "https://example.com/article",
+      "status": "completed",
+      "created_at": "2025-12-25T10:30:00Z",
+      "processed_chunks": 5
+    }
+  ],
+  "total": 1,
+  "limit": 20,
+  "offset": 0
+}
+```
+
+## Internal Module Interfaces
+
+### URL Fetcher Interface
+```python
+class URLFetcher:
+    def fetch_content(self, url: str) -> Tuple[str, Dict]:
+        """
+        Fetch content from URL and return content and metadata
+
+        Args:
+            url: The URL to fetch
+
+        Returns:
+            Tuple of (content, metadata) where metadata includes:
+            - status_code: HTTP status code
+            - content_type: Content type of the response
+            - title: Page title if available
+            - description: Meta description if available
+        """
+        pass
+```
+
+### Text Processor Interface
+```python
+class TextProcessor:
+    def clean_content(self, content: str, url: str) -> str:
+        """
+        Clean HTML content and extract plain text
+
+        Args:
+            content: Raw HTML content
+            url: Source URL for context
+
+        Returns:
+            Cleaned plain text
+        """
+        pass
+
+    def chunk_text(self, text: str, chunk_size: int = 1000, overlap: int = 100) -> List[Dict]:
+        """
+        Split text into chunks with overlap
+
+        Args:
+            text: Input text to chunk
+            chunk_size: Maximum size of each chunk
+            overlap: Overlap between chunks
+
+        Returns:
+            List of chunk dictionaries with 'text', 'index', and 'total' properties
+        """
+        pass
+```
+
+### Embedder Interface
+```python
+class Embedder:
+    def generate_embedding(self, text: str) -> List[float]:
+        """
+        Generate embedding vector for text
+
+        Args:
+            text: Input text to embed
+
+        Returns:
+            Embedding vector as list of floats
+        """
+        pass
+
+    def batch_generate_embeddings(self, texts: List[str]) -> List[List[float]]:
+        """
+        Generate embeddings for multiple texts efficiently
+
+        Args:
+            texts: List of input texts
+
+        Returns:
+            List of embedding vectors
+        """
+        pass
+```
+
+### Storage Interface
+```python
+class StorageManager:
+    def store_chunk(self, chunk_data: Dict) -> str:
+        """
+        Store a document chunk in Qdrant
+
+        Args:
+            chunk_data: Dictionary containing chunk information
+
+        Returns:
+            ID of the stored chunk
+        """
+        pass
+
+    def search_similar(self, query_embedding: List[float], limit: int = 10, filters: Dict = None) -> List[Dict]:
+        """
+        Search for similar chunks using vector similarity
+
+        Args:
+            query_embedding: Embedding vector to search for
+            limit: Maximum number of results
+            filters: Optional filters to apply
+
+        Returns:
+            List of similar chunks with similarity scores
+        """
+        pass
+```
+
+## Error Handling
+
+### Standard Error Format
+```json
+{
+  "error": "error_code",
+  "message": "Human-readable error message",
+  "details": "Additional error details"
+}
+```
+
+### Common Error Codes
+- `INVALID_URL`: URL format is invalid
+- `URL_FETCH_ERROR`: Failed to fetch URL content
+- `SECURITY_VIOLATION`: URL failed security validation
+- `EMBEDDING_ERROR`: Failed to generate embeddings
+- `STORAGE_ERROR`: Failed to store data in Qdrant
+- `JOB_NOT_FOUND`: Requested job doesn't exist
+- `RATE_LIMIT_EXCEEDED`: API rate limit exceeded
+
+## Authentication & Authorization
+
+All API endpoints require authentication via API key in the `Authorization` header:
+
+```
+Authorization: Bearer <API_KEY>
+```
+
+## Rate Limiting
+
+- Per API key: 100 requests per minute
+- Concurrent URL fetches per key: 5
+- Maximum document size: 1MB per request
